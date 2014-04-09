@@ -12,7 +12,7 @@ A program to compute similarity of two documents
 - learn some nltk and play with the data
 - my first similarity calculator?
 
-### 04082014 11-12pm
+#### 04082014 11-12pm
 
 - what is the problem
     - object: document
@@ -44,7 +44,7 @@ Tools
 - NLTK
 - http request lib (for Twitter API)
 
-### 04092014 5-6pm
+#### 04092014 5-6pm
 
 the program
 
@@ -53,3 +53,12 @@ the program
     - API secrets store separately
     - search only English and medium-level tweets
 - do I remove links and names? leave them there for now.
+
+similarity calculator 1
+
+- combine all 100 tweets into a paragraph
+- then count frequency of each word?
+
+miscs
+
+- could only compare entities of 2 hashtags
