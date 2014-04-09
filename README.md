@@ -3,18 +3,16 @@ ComputeSimilarity
 
 A program to compute similarity of two documents
 
+#### TODO
+
+- ~~git repo setup~~ 0408
+- ~~some initial research and idea search, decide the topic~~ 0408
+- ~~setup working environment~~ 0408
+- ~~collect some twitter data~~ 0409
+- learn some nltk and play with the data
+- my first similarity calculator?
+
 ### 04082014 11-12pm
-
-***
-
-#### Completed
-
-- git repo setup
-- some initial research and idea search
-- decide the topic
-- setup working environment
-
-#### NOTE
 
 - what is the problem
     - object: document
@@ -46,8 +44,12 @@ Tools
 - NLTK
 - http request lib (for Twitter API)
 
-#### TODO
+### 04092014 5-6pm
 
-- collect some twitter data
-- learn some nltk and play with the data
-- my first similarity calculator?
+the program
+
+- take 2 inputs: 2 strings, representing hashtag
+- use Twitter search API to obtain first 100 tweets for each hashtag
+    - API secrets store separately
+    - search only English and medium-level tweets
+- do I remove links and names? leave them there for now.
