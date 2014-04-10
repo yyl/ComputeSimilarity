@@ -9,8 +9,9 @@ A program to compute similarity of two documents
 - ~~some initial research and idea search, decide the topic~~ 0408
 - ~~setup working environment~~ 0408
 - ~~collect some twitter data~~ 0409
+- ~~my first similarity calculator?~~ 0410
 - learn some nltk basics and play with the data
-- my first similarity calculator?
+- learn some scikit-learn basics
 
 #### 04082014 11-12pm
 
@@ -79,3 +80,24 @@ miscs
 play nltk
 
 - many hashtags are high frequency words
+
+#### 04102014 4-6:30pm
+
+doc similarity
+
+- **salient words**: TF x IDF
+- term frequency (TF): `TF(x) = log10(1+c(x)) or c(x)` - high occurrence within doc
+- inverse document freq (IDF): `IDF(x) = log10(Ndocs/DF(x))` - low occurrence across docs
+- cosine similarity: `D1 x D2 / (sqrt(D1^2) x sqrt(D2^2))`
+
+play nltk
+
+- `rt` occurs a lot, and different hashtags have different amount of occurrence of `rt`. itself could be an interesting thing to look at
+- is 100 tweets enough for similarity analysis?
+- stemming: Porter Stemmer
+
+first similarity calculator
+
+- given 2 hashtags as input, obtain 100 tweets per tag
+- cleaning: lower, remove punctuation, stemming, tokenize
+- compute tfidf of 2 tokenized docs using scikit-learn
