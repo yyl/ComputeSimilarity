@@ -9,7 +9,7 @@ A program to compute similarity of two documents
 - ~~some initial research and idea search, decide the topic~~ 0408
 - ~~setup working environment~~ 0408
 - ~~collect some twitter data~~ 0409
-- learn some nltk and play with the data
+- learn some nltk basics and play with the data
 - my first similarity calculator?
 
 #### 04082014 11-12pm
@@ -62,3 +62,20 @@ similarity calculator 1
 miscs
 
 - could only compare entities of 2 hashtags
+
+#### 04092014 9:30-11pm
+
+- tokenization: split texts on non-alphabetic characters
+    - token: a set of consecutive words, unigram, bigram...
+    - co-occurent: simple phrases
+    - stopwords: useless tokens? such as the, a, are
+        - for twitter: rt
+- lemmatization: Problem of finding the correct dictionary headword form
+    - e.g. plural, past tense
+    - stemming: change them back to the core words they are made up, chop down affixes from the stem!
+- document frequency
+    - salient words: high count in the doc + low count across docs
+
+play nltk
+
+- many hashtags are high frequency words
