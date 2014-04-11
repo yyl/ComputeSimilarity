@@ -9,9 +9,10 @@ A program to compute similarity of two documents
 - ~~some initial research and idea search, decide the topic~~ 0408
 - ~~setup working environment~~ 0408
 - ~~collect some twitter data~~ 0409
+- ~~learn some nltk and scikit-learn basics~~ 0410
 - ~~my first similarity calculator?~~ 0410
-- learn some nltk basics and play with the data
-- learn some scikit-learn basics
+- get more tweets for each tag
+- try another calculator
 
 #### 04082014 11-12pm
 
@@ -81,7 +82,7 @@ play nltk
 
 - many hashtags are high frequency words
 
-#### 04102014 4-6:30pm
+#### 04102014 4-6:30pm, 7:30
 
 doc similarity
 
@@ -98,6 +99,11 @@ play nltk
 
 first similarity calculator
 
-- given 2 hashtags as input, obtain 100 tweets per tag
-- cleaning: lower, remove punctuation, stemming, tokenize
-- compute tfidf of 2 tokenized docs using scikit-learn
+- given 2 hashtags as input, obtain 2000 tweets per tag
+- cleaning: lower all characters, remove punctuation, stemming, tokenize
+- compute tfidf of 2 docs using scikit-learn
+
+![First similarity calculator 2000 tweets](images/hashtag_similarity2000.png)
+
+Heres a figure of scores between 2 hashtags with 2000 tweets per tag. I increased because I suspect 100 might not be sufficient. Apparently I have met the cap of twitter API. SO the score of `#ssl v. #heartbleed` is the highest, which is great, so is `#nba v. #ncaa`. We have some weird pairs like `#ladygaga v. #heartbleed` scored nearly as high as `#ladygaga v. #heartbleed`, which does not make sense. 
+
