@@ -98,7 +98,7 @@ play nltk
 - is 100 tweets enough for similarity analysis?
 - stemming: Porter Stemmer
 
-first similarity calculator
+**first similarity calculator**
 
 - given 2 hashtags as input, obtain same amount of tweets per tag
 - cleaning: lower all characters, remove punctuation, stemming, tokenize
@@ -106,8 +106,8 @@ first similarity calculator
 
 ![First similarity calculator 100 tweets](images/hashtag_similarity100.png)
 
-The highest score is `#heartbleed v. #ssl`, 0.538. The second one makes sense too. Then some weird paris such as `#nba v. #ssl` ranked higher than `#ladygaga v. #justinbieber`, which is supposed to be very similar (is that so?). I also computed the same scores for each pair with 2000 tweets per pair.
+The highest score is `#heartbleed v. #ssl`, 0.538. The second one makes sense too. Then some weird paris such as `#nba v. #ssl` ranked higher than `#ladygaga v. #justinbieber`, which is supposed to be very similar (is that so?). I also computed the same scores for each pair with 2000 tweets per tag.
 
 ![First similarity calculator 2000 tweets](images/hashtag_similarity2000.png)
 
-Heres a figure of scores between 2 hashtags with 2000 tweets per tag. Apparently I have met the cap of twitter API. The first and second did not change. Now `#ladygaga v. #justinbieber` surpasses all other weird pairs, but it does not differ much from `#nba v. #heartbleed`.
+Apparently I have met the cap of twitter API after pulling several times of 2000 tweets. We could see that the first and second ranking did not change. Now `#ladygaga v. #justinbieber` surpasses all other weird pairs, but it does not differ much from `#nba v. #heartbleed`.
