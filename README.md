@@ -82,7 +82,7 @@ play nltk
 
 - many hashtags are high frequency words
 
-#### 04102014 4-6:30pm, 7:30-9pm
+#### 04102014 4-6:30pm, 7:30-9pm, 10-10:30pm
 
 doc similarity
 
