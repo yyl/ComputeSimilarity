@@ -11,7 +11,8 @@ A program to compute similarity of two documents
 - ~~collect some twitter data~~ 0409
 - ~~learn some nltk and scikit-learn basics~~ 0410
 - ~~my first similarity calculator?~~ 0410
-- get more tweets for each tag
+- ~~get more tweets for each tag~~ 0410
+- try to explain the results
 - try another calculator
 
 #### 04082014 11-12pm
@@ -98,11 +99,12 @@ play nltk
 - is 100 tweets enough for similarity analysis?
 - stemming: Porter Stemmer
 
-**first similarity calculator**
+### first similarity calculator
 
-- given 2 hashtags as input, obtain same amount of tweets per tag
+- given 2 hashtags as input, obtain 100 tweets per tag
 - cleaning: lower all characters, remove punctuation, stemming, tokenize
 - compute tfidf of 2 docs using scikit-learn
+- 6 hashtags are used `#heartbleed #ssl #nba #ncaa #ladygaga #justinbieber`, and I compared each 2 of them
 
 ![First similarity calculator 100 tweets](images/hashtag_similarity100.png)
 
