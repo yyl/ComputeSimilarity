@@ -1,7 +1,7 @@
 ComputeSimilarity
 =================
 
-A program to compute similarity of two documents
+A program to compute similarity of two ~~documents~~ hashtags in Twitter
 
 #### TODO
 
@@ -12,8 +12,9 @@ A program to compute similarity of two documents
 - ~~learn some nltk and scikit-learn basics~~ 0410
 - ~~my first similarity calculator?~~ 0410
 - ~~get more tweets for each tag~~ 0410
-- try to explain the results
-- try another calculator
+- ~~analyze most common words~~ 0411
+- for the unstable pair `#ladygaga v. #justinbieber`, compute curve `# of tweets x similarity score`
+- compute similarity of 2 hashtags based on only entities in received tweets?
 
 #### 04082014 11-12pm
 
@@ -113,3 +114,19 @@ The highest score is `#heartbleed v. #ssl`, 0.538. The second one makes sense to
 ![First similarity calculator 2000 tweets](images/hashtag_similarity2000.png)
 
 Apparently I have met the cap of twitter API after pulling several times of 2000 tweets. We could see that the first and second ranking did not change. Now `#ladygaga v. #justinbieber` surpasses all other weird pairs, but it does not differ much from `#nba v. #heartbleed`.
+
+I then computed the 10 most common tokens of tweets for each hashtag:
+
+
+         ladygaga [('ladygaga', 1075), ('rt', 432), ('gaga', 288), ('ladi', 187), ('artpop', 173), ('guy', 109), ('roseland', 102), ('littlemonst', 94), ('love', 76), ('thi', 73)]
+              nba [('nba', 1040), ('rt', 506), ('lebron', 233), ('game', 232), ('ha', 213), ('amp', 197), ('plumle', 196), ('mason', 191), ('de', 191), ('break', 189)]
+       heartbleed [('heartble', 1008), ('rt', 472), ('password', 233), ('chang', 184), ('bug', 164), ('secur', 96), ('de', 94), ('vulner', 93), ('need', 92), ('openssl', 89)]
+     justinbieber [('justinbieb', 1120), ('rt', 300), ('justin', 192), ('bieber', 170), ('\xf0\x9f\x98\x8d', 162), ('belieb', 146), ('believeangelss', 135), ('httpstcotvzzxcyyj6', 120), ('confid', 84), ('escuchayvota', 81)]
+              ssl [('ssl', 994), ('heartble', 603), ('rt', 317), ('secur', 237), ('openssl', 189), ('bug', 169), ('de', 113), ('password', 98), ('vulner', 96), ('internet', 67)]
+             ncaa [('ncaa', 1012), ('rt', 285), ('basketbal', 207), ('uconn', 202), ('nba', 150), ('gordon', 120), ('mlb', 119), ('derrick', 113), ('player', 105), ('xnxx', 92)]
+
+Now one thing very obvious is all hashtags contain many `rt`, which is predictable. The thing is whether we need to keep it when we compute the similarity. On one hand, it inceases the similarity of any pair as they all have a large amount of `rt`; on the other hand, I am wondering if the amount of `rt` could be a metric for hashtag similarity: similar hashtag should have similar amount of `rt`? To compare, I computed 2000tweets similarity again with `rt` removed.
+
+![First similarity calculator 2000 tweets withou RT](images/hashtag_similarity2000_noRT.png)
+
+Compared with the original 2000tweets figure, all scores are hit, which is reasonable considering we removed one high-ranked token. What I care about is how the difference changed between two previously ambiguous pair, `#ladygaga v. #justinbieber` and `#nba v. #heartbleed`. In the original, the difference of their scores is `0.099 - 0.092 = 0.007`, which is `0.007/0.099 (7.1%)` in percentage; in the no `rt` figure, it is `0.025 - 0.015 = 0.01`, which is `0.01/0.025 (40%)`. It seems by removing `rt` we were able to better distinguish pairs that are _somehow similar_ from ones that are _somehow dissimilar_. Therefore, I decide to remove `rt` in my similarity calculator.

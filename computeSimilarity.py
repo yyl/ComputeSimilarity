@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 
 # nltk corpus download to /Users/yulongyang/nltk_data
 AMOUNT = 2000
+
 ## bar plot
 def barplot(scores):
     font = {'size': 10}
@@ -39,28 +40,26 @@ def barplot(scores):
 def getTagName(filename):
     return os.path.basename(filename).rstrip(".txt")
 
+## remove stopwords using nltk corpus
+def removeStopwords(tokens):
+    return (w for w in tokens if not w in stopwords.words('english'))
+
+## given a word of , remove all occurrence of rt
+def removeRT(line):
+    return line.translate(None, 'rt')
+
 ## tokenizer
 ## also apply stopwords removal and stemming
 def getTokens(words):
-    tokens = nltk.word_tokenize(words)
-    '''
-    ## stopwords removal
-    filtered = [w for w in tokens if not w in stopwords.words('english')]
-    '''
+    ## tokenize AND remove rt keyword
+    #tokens = nltk.word_tokenize(words)
+    tokens = (w for w in nltk.word_tokenize(words) if w != 'rt')
     ## stemming
     stemmer = PorterStemmer()
     stemmed = []
     for item in tokens:
         stemmed.append(stemmer.stem(item))
     return stemmed
-
-## get words for each tag
-## lower them down and remove punctuation
-def getWords(tag):
-    with open('%s.txt' % tag, 'r') as f: 
-        text = f.read()
-        lowers = text.lower()
-    return lowers.translate(None, string.punctuation)
 
 ## given two docs, compute the similarity
 ## D<w1, w2, ...> and cosine similarity
@@ -70,22 +69,40 @@ def pairwiseSim(doc1, doc2):
     pairwise_similarity = tfidf * tfidf.T
     return pairwise_similarity[0,1]
 
-def getScores(foldername):
-    scores = {}
+## given folder path
+## read all files, lower all chars and remove punctuation
+def getDocs(foldername):
     token_dict = {}
+    # read all files into a dict
+    # also lower all chars and remove punctuation
     for filename in walker(foldername):
         token_dict[filename] = open(filename, "r").read().lower().translate(None, string.punctuation)
-    for f1, f2 in itertools.combinations(token_dict.items(), 2):
+    return token_dict
+
+## given foldername, compute scores for each pair of tags in the folder
+def getScores(foldername):
+    scores = {}
+    # iterate all combination of 2 tags
+    for f1, f2 in itertools.combinations(getDocs(foldername).items(), 2):
         score = pairwiseSim(f1[1], f2[1])
-        print "%10s %10s %5.5f" % (getTagName(f1[0]), getTagName(f2[0]), score)
+        print "%15s %15s %5.5f" % (getTagName(f1[0]), getTagName(f2[0]), score)
         pair_name = "#%s v. #%s" % (getTagName(f1[0]), getTagName(f2[0]))
         scores[pair_name] = score
-    # sort scores based on score
+    # sort scores in descending
     return sorted(scores.iteritems(), key=lambda t:t[1])
 
+## the main program to compute and plot similarity
 def main():
     scores = getScores("tweets%s" % AMOUNT)
     barplot(scores)
+
+## the main program for computing most common words
+def main_mostCommon():
+    tag_dict = getDocs("tweets2000")
+    tokenized_dict = (( tag, removeStopwords(getTokens(f)) ) for tag, f in tag_dict.iteritems())
+    common_words = (( getTagName(tag), Counter(tokens).most_common(10) ) for tag, tokens in tokenized_dict)
+    for tag, common in common_words:
+        print "%15s %s" % (tag, common)
 
 if __name__ == '__main__':
     main()

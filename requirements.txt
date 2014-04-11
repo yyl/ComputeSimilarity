@@ -1,7 +1,9 @@
 PyYAML==3.11
 distribute==0.6.34
 nltk==2.0.4
+numpy==1.8.1
 oauthlib==0.6.1
 requests==2.2.1
 requests-oauthlib==0.4.0
+scikit-learn==0.14.1
 wsgiref==0.1.2
