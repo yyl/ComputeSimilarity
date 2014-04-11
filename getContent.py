@@ -18,11 +18,12 @@ FILTER_PARAMS = {'language':'en', 'filter_level':'medium'}
 oauth = OAuth1Session(APP_KEY, client_secret=APP_SECRET,
                         resource_owner_key=ACCESS_TOKEN,
                         resource_owner_secret=ACCESS_TOKEN_SECRET)
-AMOUNT = 100
+AMOUNT = 4000
 
-## to write tweets into local file
-def dumpTweets(tag, tweets):
-    with open("tweets%s/%s.txt" % (AMOUNT, tag.lstrip('#')), "a+") as f:
+## given a list of tweet texts, write tweets into local file
+## filename is the tag without #
+def dumpTweets(tag, tweets, foldername):
+    with open("%s/%s.txt" % (foldername, tag.lstrip('#')), "a+") as f:
         for tweet in tweets:
             f.write(tweet.encode('utf-8') + "\n")
 
@@ -35,7 +36,8 @@ def getTweets(tag):
         tweets = [decode_to_unicode(tweet['text']) for tweet in robj['statuses']]
         dumpTweets(tag, tweets)
 
-## get tweets given the hashtag
+## given AMOUNT, get large amount of tweets given the hashtag
+## also obtain all entities from the tweets
 def getMoreTweets(tag):
     print "Getting more tweets for %s..." % tag
     SEARCH_KEYS['q'] = tag
@@ -45,13 +47,48 @@ def getMoreTweets(tag):
         response = oauth.get(SEARCH_URL, params=SEARCH_KEYS)
         if response.status_code == 200:
             robj = response.json()
+            # decode and get tweet text
             tweets = (decode_to_unicode(tweet['text']) for tweet in robj['statuses'])
             dumpTweets(tag, tweets)
             ids = (int(tweet.get('id')) for tweet in robj['statuses'])
+            # keep track of max_id to avoid repeat task
             SEARCH_KEYS['max_id'] = min(ids) - 1
             count += 100
+            # log progress
             if count%500 == 0:
                 print "getting %s tweets..." % count
+
+## similar to getMoreTweets but only obtain all entities from the tweets
+def getMoreEntities(tag):
+    print "Getting entities of %d tweets for %s..." % (AMOUNT, tag)
+    SEARCH_KEYS['q'] = tag
+    count = 0
+    response = oauth.get(SEARCH_URL, params=SEARCH_KEYS)
+    while count < AMOUNT:
+        response = oauth.get(SEARCH_URL, params=SEARCH_KEYS)
+        if response.status_code == 200:
+            robj = response.json()
+            # try to get all entities
+            group_entities = (decode_to_unicode(tweet['entities'] for tweet in robj['statuses']))
+            # get all hashtags
+            hashtags = (item for hashtag_list in (entities.get('hashtags', []) for entities in group_entities) for item in hashtag_list)
+            hashtag_texts = (hasht.get('text', '') for hasht in hashtags)
+            dumpTweets(tag, hashtag_texts, "entities")
+            # get all user mentions
+            mentions = (item for mention_list in (entities.get('user_mentions', []) for entities in group_entities) for item in mention_list)
+            mention_texts = (mentiont.get('name', '') for mentiont in mentions)
+            dumpTweets(tag, mention_texts, "entities")
+            # keep track of max_id to avoid repeat pulling
+            ids = (int(tweet.get('id', 0)) for tweet in robj['statuses'])
+            earliest = min(ids)
+            if earliest == 0:
+                print "no more tweets for %s" % tag
+                break
+            SEARCH_KEYS['max_id'] = earliest - 1
+            count += 100
+            # log progress
+            if count%500 == 0:
+                print "processing %s tweets..." % count
 
 '''
 ## use streaming API to get more tweets per tag
@@ -76,6 +113,7 @@ def getMoreTweets(tag):
     dumpTweets(tag, tweets)
 '''
 
+## get tags from trending topics
 def getTags():
     response = oauth.get(TRENDS_URL, params=PARAMS)
     if response.status_code == 200:
@@ -90,7 +128,7 @@ def getTags():
 def main():
     #getTags()
     for line in open("tags.txt", "r"):
-        getMoreTweets(line.rstrip())
+        getMoreEntities(line.rstrip())
 
 if __name__ == '__main__':
     main()

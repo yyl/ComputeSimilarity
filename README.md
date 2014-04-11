@@ -13,7 +13,9 @@ A program to compute similarity of two ~~documents~~ hashtags in Twitter
 - ~~my first similarity calculator?~~ 0410
 - ~~get more tweets for each tag~~ 0410
 - ~~analyze most common words~~ 0411
-- compute similarity of 2 hashtags based on only entities in received tweets?
+- ~~get all entities for each tweet~~ 0411
+- ~~compute similarity of 2 hashtags based on only entities in received tweets?~~ 0411
+- how is the uniqueness of entities change along the increase of amount of tweets for each tag?
 - for the unstable pair `#ladygaga v. #justinbieber`, compute curve `# of tweets x similarity score`
 
 #### 0408 11-12pm
@@ -115,7 +117,7 @@ The highest score is `#heartbleed v. #ssl`, 0.538. The second one makes sense to
 
 Apparently I have met the cap of twitter API after pulling several times of 2000 tweets. We could see that the first and second ranking did not change. Now `#ladygaga v. #justinbieber` surpasses all other weird pairs, but it does not differ much from `#nba v. #heartbleed`.
 
-#### 0411 5:30-6:30pm
+#### 0411 5:30-7pm
 
 As weird result found from my similarity calculator, I first computed the 10 most common tokens of tweets for each hashtag:
 
@@ -132,3 +134,11 @@ Now one thing very obvious is all hashtags contain many `rt`, which is predictab
 ![First similarity calculator 2000 tweets withou RT](images/hashtag_similarity2000_noRT.png)
 
 Compared with the original 2000tweets figure, all scores are hit, which is reasonable considering we removed one high-ranked token. What I care about is how the difference changed between two previously ambiguous pair, the 3rd and 4th pari in the figure: `#ladygaga v. #justinbieber` and `#nba v. #heartbleed`. In the original, the difference of their scores is `0.099 - 0.092 = 0.007`, which is `0.007/0.099 (7.1%)` in percentage; in the no `rt` figure, it is `0.025 - 0.015 = 0.01`, which is `0.01/0.025 (40%)`. It seems by removing `rt` we were able to better distinguish pairs that are _somehow similar_ from ones that are _somehow dissimilar_. Therefore, I decide to remove `rt` in my similarity calculator.
+
+When I fecth entities apparently I hit the cap of Twitter API again because I increased the amount of tweets fetched per tag to 4000 to compensate the amount of entities per tag. I was managed to obtain all entities of 4000 tweets for tag `#heartbleed` and `#ssl`. For entities, I only captured `hashtag` and name of `mentions` for simplicity. The similarity of these two is 0.30249, which is much lower than that when I use tweets intead of entities only. I then computed most common entities for the 2 tags:
+
+       tag name # of unique entities 10 most common entities
+            ssl                 1312 [('ssl', 3931), ('heartble', 1221), ('openssl', 841), ('secur', 433), ('tl', 319), ('protool', 159), ('bug', 132), ('innebandi', 127), ('infosec', 125), ('kramer', 96)]
+     heartbleed                  558 [('heartble', 4017), ('nsa', 628), ('openssl', 117), ('secur', 89), ('break', 57), ('hilari', 51), ('cybersecur', 50), ('xkcd', 49), ('ssl', 46), ('infosec', 37)]
+
+We could see these two differ more compared with the same 10 most common tokens in previous analysis for the same 2 tags. I also added the total number of unique entities for each tag for reference. I cannot make much sense for now but I suspect that it has lower score because by only comparing entities we remove tokens occured in both tags but are not entities. However, given entities should be a tightened information of each tweet, I am not sure why the performance here is not good. One possibility is I have to yet increase the amount of entities to discover the true pattern of entities of each tweet.

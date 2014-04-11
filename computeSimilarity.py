@@ -92,17 +92,23 @@ def getScores(foldername):
     return sorted(scores.iteritems(), key=lambda t:t[1])
 
 ## the main program to compute and plot similarity
-def main():
-    scores = getScores("tweets%s" % AMOUNT)
+def main(foldername):
+    scores = getScores(foldername)
     barplot(scores)
 
 ## the main program for computing most common words
-def main_mostCommon():
-    tag_dict = getDocs("tweets2000")
+def main_mostCommon(foldername):
+    tag_dict = getDocs(foldername)
     tokenized_dict = (( tag, removeStopwords(getTokens(f)) ) for tag, f in tag_dict.iteritems())
-    common_words = (( getTagName(tag), Counter(tokens).most_common(10) ) for tag, tokens in tokenized_dict)
+    common_words = (( getTagName(tag), Counter(tokens) ) for tag, tokens in tokenized_dict)
+    print "%15s %20s %s" % ('tag name', '# of unique entities', '10 most common entities')
     for tag, common in common_words:
-        print "%15s %s" % (tag, common)
+        print "%15s %20d %s" % (tag, len(common), common.most_common(10))
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) != 2:
+        print "Duuuuuuuuuugh!!!"
+        print "Usage: python script.py foldername"
+        sys.exit(0)
+    #main(sys.argv[1])
+    main_mostCommon(sys.argv[1])
