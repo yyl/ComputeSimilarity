@@ -89,6 +89,7 @@ doc similarity
 - **salient words**: TF x IDF
 - term frequency (TF): `TF(x) = log10(1+c(x)) or c(x)` - high occurrence within doc
 - inverse document freq (IDF): `IDF(x) = log10(Ndocs/DF(x))` - low occurrence across docs
+- for each doc, `D = [w1, w2, ...]`, where `w` is tfidf score of a token
 - cosine similarity: `D1 x D2 / (sqrt(D1^2) x sqrt(D2^2))`
 
 play nltk
@@ -99,11 +100,14 @@ play nltk
 
 first similarity calculator
 
-- given 2 hashtags as input, obtain 2000 tweets per tag
+- given 2 hashtags as input, obtain same amount of tweets per tag
 - cleaning: lower all characters, remove punctuation, stemming, tokenize
 - compute tfidf of 2 docs using scikit-learn
 
+![First similarity calculator 100 tweets](images/hashtag_similarity100.png)
+
+The highest score is `#heartbleed v. #ssl`, 0.538. The second one makes sense too. Then some weird paris such as `#nba v. #ssl` ranked higher than `#ladygaga v. #justinbieber`, which is supposed to be very similar (is that so?). I also computed the same scores for each pair with 2000 tweets per pair.
+
 ![First similarity calculator 2000 tweets](images/hashtag_similarity2000.png)
 
-Heres a figure of scores between 2 hashtags with 2000 tweets per tag. I increased because I suspect 100 might not be sufficient. Apparently I have met the cap of twitter API. SO the score of `#ssl v. #heartbleed` is the highest, which is great, so is `#nba v. #ncaa`. We have some weird pairs like `#ladygaga v. #heartbleed` scored nearly as high as `#ladygaga v. #heartbleed`, which does not make sense. 
-
+Heres a figure of scores between 2 hashtags with 2000 tweets per tag. Apparently I have met the cap of twitter API. The first and second did not change. Now `#ladygaga v. #justinbieber` surpasses all other weird pairs, but it does not differ much from `#nba v. #heartbleed`.
