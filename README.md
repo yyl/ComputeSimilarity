@@ -13,10 +13,10 @@ A program to compute similarity of two ~~documents~~ hashtags in Twitter
 - ~~my first similarity calculator?~~ 0410
 - ~~get more tweets for each tag~~ 0410
 - ~~analyze most common words~~ 0411
-- for the unstable pair `#ladygaga v. #justinbieber`, compute curve `# of tweets x similarity score`
 - compute similarity of 2 hashtags based on only entities in received tweets?
+- for the unstable pair `#ladygaga v. #justinbieber`, compute curve `# of tweets x similarity score`
 
-#### 04082014 11-12pm
+#### 0408 11-12pm
 
 - what is the problem
     - object: document
@@ -48,7 +48,7 @@ Tools
 - NLTK
 - http request lib (for Twitter API)
 
-#### 04092014 5-6pm
+#### 0409 5-6pm
 
 the program
 
@@ -67,7 +67,7 @@ miscs
 
 - could only compare entities of 2 hashtags
 
-#### 04092014 9:30-11pm
+#### 0409 9:30-11pm
 
 - tokenization: split texts on non-alphabetic characters
     - token: a set of consecutive words, unigram, bigram...
@@ -84,7 +84,7 @@ play nltk
 
 - many hashtags are high frequency words
 
-#### 04102014 4-6:30pm, 7:30-9pm, 10-10:30pm
+#### 0410 4-6:30pm, 7:30-9pm, 10-10:30pm
 
 doc similarity
 
@@ -115,7 +115,9 @@ The highest score is `#heartbleed v. #ssl`, 0.538. The second one makes sense to
 
 Apparently I have met the cap of twitter API after pulling several times of 2000 tweets. We could see that the first and second ranking did not change. Now `#ladygaga v. #justinbieber` surpasses all other weird pairs, but it does not differ much from `#nba v. #heartbleed`.
 
-I then computed the 10 most common tokens of tweets for each hashtag:
+#### 0411 5:30-6:30pm
+
+As weird result found from my similarity calculator, I first computed the 10 most common tokens of tweets for each hashtag:
 
 
          ladygaga [('ladygaga', 1075), ('rt', 432), ('gaga', 288), ('ladi', 187), ('artpop', 173), ('guy', 109), ('roseland', 102), ('littlemonst', 94), ('love', 76), ('thi', 73)]
@@ -129,4 +131,4 @@ Now one thing very obvious is all hashtags contain many `rt`, which is predictab
 
 ![First similarity calculator 2000 tweets withou RT](images/hashtag_similarity2000_noRT.png)
 
-Compared with the original 2000tweets figure, all scores are hit, which is reasonable considering we removed one high-ranked token. What I care about is how the difference changed between two previously ambiguous pair, `#ladygaga v. #justinbieber` and `#nba v. #heartbleed`. In the original, the difference of their scores is `0.099 - 0.092 = 0.007`, which is `0.007/0.099 (7.1%)` in percentage; in the no `rt` figure, it is `0.025 - 0.015 = 0.01`, which is `0.01/0.025 (40%)`. It seems by removing `rt` we were able to better distinguish pairs that are _somehow similar_ from ones that are _somehow dissimilar_. Therefore, I decide to remove `rt` in my similarity calculator.
+Compared with the original 2000tweets figure, all scores are hit, which is reasonable considering we removed one high-ranked token. What I care about is how the difference changed between two previously ambiguous pair, the 3rd and 4th pari in the figure: `#ladygaga v. #justinbieber` and `#nba v. #heartbleed`. In the original, the difference of their scores is `0.099 - 0.092 = 0.007`, which is `0.007/0.099 (7.1%)` in percentage; in the no `rt` figure, it is `0.025 - 0.015 = 0.01`, which is `0.01/0.025 (40%)`. It seems by removing `rt` we were able to better distinguish pairs that are _somehow similar_ from ones that are _somehow dissimilar_. Therefore, I decide to remove `rt` in my similarity calculator.
