@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+'''
+A script to
+1. compute similarity of pairs of Twitter hashtags
+2. compute most common tokens for 2 documents
+'''
+
 from secrets import *
 from utility import *
 
@@ -32,7 +38,7 @@ def barplot(scores):
     y_pos = np.arange(len(names))
     plt.barh(y_pos, [item[1] for item in scores], align='center', alpha=0.4)
     plt.yticks(y_pos, names)
-    plt.title('Similarity score based on tokenized tfidf scores with %s tweets per tag' % AMOUNT)
+    plt.title('Similarity score with %s tweets per tag\n w/o token "RT"' % AMOUNT)
     plt.tight_layout()
     fig.savefig('hashtag_similarity%s.png' % AMOUNT, bbox_inches=0)
 
@@ -64,8 +70,10 @@ def getTokens(words):
 ## given two docs, compute the similarity
 ## D<w1, w2, ...> and cosine similarity
 def pairwiseSim(doc1, doc2):
+    # get a vector of tfidf of tokens as features
     tfidf = TfidfVectorizer(tokenizer=getTokens, stop_words='english').fit_transform([doc1, doc2])
     # no need to normalize, since Vectorizer will return normalized tf-idf
+    # compute the consine similarity of the 2 tfidf vector by dot multiplication
     pairwise_similarity = tfidf * tfidf.T
     return pairwise_similarity[0,1]
 
@@ -101,7 +109,7 @@ def main_mostCommon(foldername):
     tag_dict = getDocs(foldername)
     tokenized_dict = (( tag, removeStopwords(getTokens(f)) ) for tag, f in tag_dict.iteritems())
     common_words = (( getTagName(tag), Counter(tokens) ) for tag, tokens in tokenized_dict)
-    print "%15s %20s %s" % ('tag name', '# of unique entities', '10 most common entities')
+    print "%15s %20s %s" % ('tag name', '# of unique tokens', '10 most common tokens')
     for tag, common in common_words:
         print "%15s %20d %s" % (tag, len(common), common.most_common(10))
 

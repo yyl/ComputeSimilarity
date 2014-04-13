@@ -1,3 +1,7 @@
+'''
+A set of utility functions
+'''
+
 import os
 
 ## to decode incoming tweet

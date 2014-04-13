@@ -7,8 +7,9 @@ from requests_oauthlib import OAuth1Session
 from secrets import *
 
 '''
-return a list of hashtags from trending topics
+A script to obtain tweet texts/entities via Twitter API
 '''
+
 TRENDS_URL = 'https://api.twitter.com/1.1/trends/place.json'
 PARAMS = {'language':'en', 'filter_level':'medium', 'id':1}
 SEARCH_URL = 'https://api.twitter.com/1.1/search/tweets.json'
@@ -18,7 +19,7 @@ FILTER_PARAMS = {'language':'en', 'filter_level':'medium'}
 oauth = OAuth1Session(APP_KEY, client_secret=APP_SECRET,
                         resource_owner_key=ACCESS_TOKEN,
                         resource_owner_secret=ACCESS_TOKEN_SECRET)
-AMOUNT = 4000
+AMOUNT = 2000
 
 ## given a list of tweet texts, write tweets into local file
 ## filename is the tag without #
@@ -49,7 +50,7 @@ def getMoreTweets(tag):
             robj = response.json()
             # decode and get tweet text
             tweets = (decode_to_unicode(tweet['text']) for tweet in robj['statuses'])
-            dumpTweets(tag, tweets)
+            dumpTweets(tag, tweets, "tweets%d" % AMOUNT)
             ids = (int(tweet.get('id')) for tweet in robj['statuses'])
             # keep track of max_id to avoid repeat task
             SEARCH_KEYS['max_id'] = min(ids) - 1
@@ -128,7 +129,8 @@ def getTags():
 def main():
     #getTags()
     for line in open("tags.txt", "r"):
-        getMoreEntities(line.rstrip())
+        #getMoreEntities(line.rstrip())
+        getMoreTweets(line.rstrip())
 
 if __name__ == '__main__':
     main()

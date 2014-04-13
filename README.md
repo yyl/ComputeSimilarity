@@ -17,6 +17,8 @@ A program to compute similarity of two ~~documents~~ hashtags in Twitter
 - ~~compute similarity of 2 hashtags based on only entities in received tweets?~~ 0411
 - how is the uniqueness of entities change along the increase of amount of tweets for each tag?
 - for the unstable pair `#ladygaga v. #justinbieber`, compute curve `# of tweets x similarity score`
+- test similar hashtags like `#boob` and `#boobs`
+- ngrams?
 
 #### 0408 11-12pm
 
@@ -121,13 +123,13 @@ Apparently I have met the cap of twitter API after pulling several times of 2000
 
 As weird result found from my similarity calculator, I first computed the 10 most common tokens of tweets for each hashtag:
 
-
-         ladygaga [('ladygaga', 1075), ('rt', 432), ('gaga', 288), ('ladi', 187), ('artpop', 173), ('guy', 109), ('roseland', 102), ('littlemonst', 94), ('love', 76), ('thi', 73)]
-              nba [('nba', 1040), ('rt', 506), ('lebron', 233), ('game', 232), ('ha', 213), ('amp', 197), ('plumle', 196), ('mason', 191), ('de', 191), ('break', 189)]
-       heartbleed [('heartble', 1008), ('rt', 472), ('password', 233), ('chang', 184), ('bug', 164), ('secur', 96), ('de', 94), ('vulner', 93), ('need', 92), ('openssl', 89)]
-     justinbieber [('justinbieb', 1120), ('rt', 300), ('justin', 192), ('bieber', 170), ('\xf0\x9f\x98\x8d', 162), ('belieb', 146), ('believeangelss', 135), ('httpstcotvzzxcyyj6', 120), ('confid', 84), ('escuchayvota', 81)]
-              ssl [('ssl', 994), ('heartble', 603), ('rt', 317), ('secur', 237), ('openssl', 189), ('bug', 169), ('de', 113), ('password', 98), ('vulner', 96), ('internet', 67)]
-             ncaa [('ncaa', 1012), ('rt', 285), ('basketbal', 207), ('uconn', 202), ('nba', 150), ('gordon', 120), ('mlb', 119), ('derrick', 113), ('player', 105), ('xnxx', 92)]
+       tag name   # of unique tokens 10 most common tokens
+       ladygaga                 4713 [('ladygaga', 2189), ('rt', 846), ('gaga', 578), ('ladi', 399), ('roseland', 262), ('artpop', 251), ('guy', 214), ('littlemonst', 206), ('love', 144), ('de', 142)]
+            nba                 4653 [('nba', 2080), ('rt', 1102), ('game', 665), ('lebron', 654), ('ha', 610), ('plumle', 595), ('mason', 585), ('break', 569), ('suspend', 568), ('amp', 560)]
+     heartbleed                 4595 [('heartble', 2016), ('rt', 1066), ('bug', 380), ('password', 379), ('nsa', 346), ('chang', 299), ('secur', 253), ('year', 239), ('vulner', 203), ('site', 193)]
+   justinbieber                 4299 [('justinbieb', 2184), ('rt', 491), ('belieb', 489), ('justin', 439), ('bieber', 379), ('love', 241), ('follow', 167), ('believemovi', 143), ('im', 143), ('pleas', 141)]
+            ssl                 5840 [('ssl', 1930), ('heartble', 1133), ('rt', 573), ('secur', 375), ('openssl', 300), ('bug', 286), ('de', 189), ('vulner', 154), ('internet', 140), ('password', 140)]
+           ncaa                 4563 [('ncaa', 2028), ('uconn', 841), ('rt', 522), ('basketbal', 365), ('women', 358), ('nba', 237), ('mlb', 205), ('huski', 193), ('championship', 179), ('xnxx', 177)]
 
 Now one thing very obvious is all hashtags contain many `rt`, which is predictable. The thing is whether we need to keep it when we compute the similarity. On one hand, it inceases the similarity of any pair as they all have a large amount of `rt`; on the other hand, I am wondering if the amount of `rt` could be a metric for hashtag similarity: similar hashtag should have similar amount of `rt`? To compare, I computed 2000tweets similarity again with `rt` removed.
 
@@ -142,3 +144,19 @@ When I fecth entities apparently I hit the cap of Twitter API again because I in
      heartbleed                  558 [('heartble', 4017), ('nsa', 628), ('openssl', 117), ('secur', 89), ('break', 57), ('hilari', 51), ('cybersecur', 50), ('xkcd', 49), ('ssl', 46), ('infosec', 37)]
 
 We could see these two differ more compared with the same 10 most common tokens in previous analysis for the same 2 tags. I also added the total number of unique entities for each tag for reference. I cannot make much sense for now but I suspect that it has lower score because by only comparing entities we remove tokens occured in both tags but are not entities. However, given entities should be a tightened information of each tweet, I am not sure why the performance here is not good. One possibility is I have to yet increase the amount of entities to discover the true pattern of entities of each tweet.
+
+### 0412
+
+My similarity calculator revisited:
+
+- target object: 2 hashtags
+- features: texts _or_ entities of **n** tweets containing the hashtags
+- metric: consine similarity of 2 vectors of TFIDF score of tokenized texts
+
+The choice of **n**
+
+For either texts and entities I have to decide how many of them I want to obtain for each hashtag to best the performance. My intuition is:
+
+    More tweets (texts/entities) -> more unique tokens per tag -> more representative the doc is for the tag -> similarity score is more accurate
+
+However, I suspect there should be a converge point, at which increasing the number of tweets will not result in a propotional increase in either number of tokens or the level of representativeness. To find out if the point exists, I computed a curve of _number of tweets_ x _number of unique tokens_.
