@@ -177,23 +177,20 @@ This time I was manged to fetched entities of 4000 tweets for each tag I have. T
 
 ![similarity score based on entities](images/hashtag_similarity2000_entity.png)
 
-This graph looks awesome. Why? Because for random pairs it computes nearly no score at all! Granted we are not sure if the difference in scores of relevant pairs are propotional to their relevancy, but at least it shows the ability to distinguish pairs of related and non-related! I further list the detail scores below:
+This graph looks awesome. Why? Because for random pairs it computes nearly no score at all! Granted we are not sure if the difference in scores of relevant pairs are propotional to their relevancy, but at least it shows the ability to distinguish pairs of related and non-related!
 
-       ladygaga             ssl 0.00009
-       ladygaga    justinbieber 0.01959
-       ladygaga             nba 0.00031
-       ladygaga            ncaa 0.00007
-       ladygaga      heartbleed 0.00003
-            ssl    justinbieber 0.00008
-            ssl             nba 0.00003
-            ssl            ncaa 0.00010
-            ssl      heartbleed 0.30249
-   justinbieber             nba 0.00038
-   justinbieber            ncaa 0.00014
-   justinbieber      heartbleed 0.00003
-            nba            ncaa 0.19963
-            nba      heartbleed 0.00001
-           ncaa      heartbleed 0.00033
-
-One could see that all irrelevant pairs scored below _0.001_, while three similar pairs scored at least 0.019. This demonstrates that entities of tweets perform better than tweet texts to compare similarity of hashtags. I think it is because tweet texts, being human languages, would have some kind of similarity even if they are talking about different objects. However, all entities, including user mentions and hashtags in tweets associated with different tags are highly correlated to the
+In fact, all irrelevant pairs scored below _0.001_, while three similar pairs scored at least 0.019. This demonstrates that entities of tweets perform better than tweet texts to compare similarity of hashtags. I think it is because tweet texts, being human languages, would have some kind of similarity even if they are talking about different objects. However, all entities, including user mentions and hashtags in tweets associated with different tags are highly correlated to the
 tags. Next, lets test our calculator using random tags.
+
+![similarity score based on entities](images/hashtag_similarity3000_entity.png)
+
+This figure above is the scores of current NYC trending hashtags result based on entities of 3000 tweets per tag. I use 3000 tweets just in case meeting the cap again. Here you probably ask the same question as me: wtf is Aron and Matt and why their score is outstanding among others! Here is most common entities from them:
+
+                 tag name   # of unique tokens 10 most common tokens
+     VerifyAaronCarpenter                   44 [('verifyaaroncarpent', 3470), ('mattto1mil', 1422), ('verifyhayesgri', 1218), ('hayesto700k', 275), ('jackandjackparadis', 137), ('verifyhay', 127), ('verifyhayesgir', 55), ('verifyaaron', 27), ('mattto1million', 22), ('brazil', 15)]
+               PalmSunday                 1428 [('palmsunday', 3001), ('holyweek', 123), ('jesu', 98), ('church', 81), ('bless', 61), ('cathol', 60), ('love', 45), ('easter', 40), ('hosanna', 37), ('domingoderamo', 37)]
+              MattTo1Mill                   43 [('mattto1mil', 7989), ('verifyaaroncarpent', 436), ('verifyhayesgri', 137), ('mattto1million', 129), ('verifyaaroncapent', 42), ('verifyaaron', 35), ('matt1mil', 26), ('jackandjackparadis', 25), ('verifiyhayesgri', 23), ('verifyhay', 21)]
+MentionPeopleYouReallyLove                  126 [('mentionpeopleyoureallylov', 3001), ('pizza', 18), ('masterssunday', 14), ('dragonbal', 12), ('hbda1varom4ldini', 10), ('mattto1mil', 7), ('pinkufam', 7), ('keepsmilingashtonwelovey', 6), ('verifyhayesgri', 6), ('jordanspeith', 5)]
+            MastersSunday                  504 [('masterssunday', 2999), ('masters2014', 353), ('master', 103), ('spieth', 47), ('mentionpeopleyoureallylov', 33), ('jordanspeith', 31), ('gotim', 30), ('golf', 25), ('augusta', 24), ('themast', 22)]
+
+Apparently they are pretty much the same thing according to entities! Their most common entities collide a lot.
