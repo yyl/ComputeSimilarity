@@ -26,8 +26,7 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
 
-# nltk corpus download to /Users/yulongyang/nltk_data
-AMOUNT = 3000
+AMOUNT = 4000
 
 ## bar plot
 def barplot(scores):
@@ -38,7 +37,7 @@ def barplot(scores):
     y_pos = np.arange(len(names))
     plt.barh(y_pos, [item[1] for item in scores], align='center', alpha=0.4)
     plt.yticks(y_pos, names)
-    plt.title('Similarity score of entities from %s tweets\nper tag w/o token "RT"\nfor NYC trending hashtags' % AMOUNT)
+    plt.title('Similarity score of entities from %s tweets\nper tag w/o token "RT"\n' % AMOUNT)
     plt.tight_layout()
     fig.savefig('hashtag_similarity%s_entity.png' % AMOUNT, bbox_inches=0)
 
@@ -118,5 +117,5 @@ if __name__ == '__main__':
         print "Duuuuuuuuuugh!!!"
         print "Usage: python script.py foldername"
         sys.exit(0)
-    #main(sys.argv[1])
-    main_mostCommon(sys.argv[1])
+    main(sys.argv[1])
+    #main_mostCommon(sys.argv[1])

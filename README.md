@@ -17,7 +17,7 @@ A program to compute similarity of two ~~documents~~ hashtags in Twitter
 - ~~compute similarity of 2 hashtags based on only entities in received tweets?~~ 0411
 - ~~how is the uniqueness of entities change along the increase of amount of tweets for each tag?~~ 0412
 - ~~compare scores based entities and tweets texts~~ 0413
-- collect entities of tweets and compute scores for random tags
+- ~~collect entities of tweets and compute scores for random tags~~ 0413
 - for the unstable pair `#ladygaga v. #justinbieber`, compute curve `# of tweets x similarity score`
 - test similar hashtags like `#boob` and `#boobs`
 - ngrams?
@@ -175,7 +175,7 @@ The maximum number of tweets and entities are 2000 and 6000, respectively. I onl
 
 This time I was manged to fetched entities of 4000 tweets for each tag I have. Then I go on computing the similarity which is shown in the graph:
 
-![similarity score based on entities](images/hashtag_similarity2000_entity.png)
+![similarity score based on entities](images/hashtag_similarity4000_entity.png)
 
 This graph looks awesome. Why? Because for random pairs it computes nearly no score at all! Granted we are not sure if the difference in scores of relevant pairs are propotional to their relevancy, but at least it shows the ability to distinguish pairs of related and non-related!
 

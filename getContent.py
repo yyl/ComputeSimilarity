@@ -22,11 +22,16 @@ FILTER_PARAMS = {'language':'en', 'filter_level':'medium'}
 oauth = OAuth1Session(APP_KEY, client_secret=APP_SECRET,
                         resource_owner_key=ACCESS_TOKEN,
                         resource_owner_secret=ACCESS_TOKEN_SECRET)
-AMOUNT = 3000
+
+## the amount of tweets crawled per tag
+AMOUNT = 4000
 
 ## given a list of tweet texts, write tweets into local file
 ## filename is the tag without #
 def dumpTweets(tag, tweets, foldername):
+    # check the dir, create it if not exsit
+    if not os.path.exists(foldername):
+        os.makedirs(foldername)
     with open("%s/%s.txt" % (foldername, tag.lstrip('#')), "a+") as f:
         for tweet in tweets:
             f.write(tweet.encode('utf-8') + "\n")
