@@ -145,7 +145,7 @@ When I fecth entities apparently I hit the cap of Twitter API again because I in
 
 We could see these two differ more compared with the same 10 most common tokens in previous analysis for the same 2 tags. I also added the total number of unique entities for each tag for reference. I cannot make much sense for now but I suspect that it has lower score because by only comparing entities we remove tokens occured in both tags but are not entities. However, given entities should be a tightened information of each tweet, I am not sure why the performance here is not good. One possibility is I have to yet increase the amount of entities to discover the true pattern of entities of each tweet.
 
-### 0412
+### 0412 11-12:30pm
 
 My similarity calculator revisited:
 
@@ -159,4 +159,12 @@ For either texts and entities I have to decide how many of them I want to obtain
 
     More tweets (texts/entities) -> more unique tokens per tag -> more representative the doc is for the tag -> similarity score is more accurate
 
-However, I suspect there should be a converge point, at which increasing the number of tweets will not result in a propotional increase in either number of tokens or the level of representativeness. To find out if the point exists, I computed a curve of _number of tweets_ x _number of unique tokens_.
+However, I suspect there should be a converge point, at which increasing the number of tweets will not result in a propotional increase in either number of tokens or the level of representativeness. To find out if the point exists, I computed a curve of _number of tweets_ x _number of unique tokens_ and _number of entities x number of unique tokens_.
+
+![number of unique tokens v. number of tweets](images/curve_of_tokens.png)
+
+![number of unique tokens v. number of entities](images/curve_of_tokens_entities.png)
+
+**note**: in the 2nd graph, x label should be "# of entities"
+
+The maximum number of tweets and entities are 2000 and 6000, respectively. I only plotted 4 tags in 1st graph and 2 tags in 2nd graph. For both graphs I only count the number of unique tokens with an occurrence more than 1, to exclude rare ones. However, apparently convergence, if it exists, is not within the range of 2000 tweets or 6000 entities. I might do collect more tweets if I have time to explore the convergence in the future.
