@@ -15,7 +15,9 @@ A program to compute similarity of two ~~documents~~ hashtags in Twitter
 - ~~analyze most common words~~ 0411
 - ~~get all entities for each tweet~~ 0411
 - ~~compute similarity of 2 hashtags based on only entities in received tweets?~~ 0411
-- how is the uniqueness of entities change along the increase of amount of tweets for each tag?
+- ~~how is the uniqueness of entities change along the increase of amount of tweets for each tag?~~ 0412
+- ~~compare scores based entities and tweets texts~~ 0413
+- collect entities of tweets and compute scores for random tags
 - for the unstable pair `#ladygaga v. #justinbieber`, compute curve `# of tweets x similarity score`
 - test similar hashtags like `#boob` and `#boobs`
 - ngrams?
@@ -168,3 +170,30 @@ However, I suspect there should be a converge point, at which increasing the num
 **note**: in the 2nd graph, x label should be "# of entities"
 
 The maximum number of tweets and entities are 2000 and 6000, respectively. I only plotted 4 tags in 1st graph and 2 tags in 2nd graph. For both graphs I only count the number of unique tokens with an occurrence more than 1, to exclude rare ones. However, apparently convergence, if it exists, is not within the range of 2000 tweets or 6000 entities. I might do collect more tweets if I have time to explore the convergence in the future.
+
+### 0413 3:30-4pm
+
+This time I was manged to fetched entities of 4000 tweets for each tag I have. Then I go on computing the similarity which is shown in the graph:
+
+![similarity score based on entities](images/hashtag_similarity2000_entity.png)
+
+This graph looks awesome. Why? Because for random pairs it computes nearly no score at all! Granted we are not sure if the difference in scores of relevant pairs are propotional to their relevancy, but at least it shows the ability to distinguish pairs of related and non-related! I further list the detail scores below:
+
+       ladygaga             ssl 0.00009
+       ladygaga    justinbieber 0.01959
+       ladygaga             nba 0.00031
+       ladygaga            ncaa 0.00007
+       ladygaga      heartbleed 0.00003
+            ssl    justinbieber 0.00008
+            ssl             nba 0.00003
+            ssl            ncaa 0.00010
+            ssl      heartbleed 0.30249
+   justinbieber             nba 0.00038
+   justinbieber            ncaa 0.00014
+   justinbieber      heartbleed 0.00003
+            nba            ncaa 0.19963
+            nba      heartbleed 0.00001
+           ncaa      heartbleed 0.00033
+
+One could see that all irrelevant pairs scored below _0.001_, while three similar pairs scored at least 0.019. This demonstrates that entities of tweets perform better than tweet texts to compare similarity of hashtags. I think it is because tweet texts, being human languages, would have some kind of similarity even if they are talking about different objects. However, all entities, including user mentions and hashtags in tweets associated with different tags are highly correlated to the
+tags. Next, lets test our calculator using random tags.

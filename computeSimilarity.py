@@ -38,9 +38,9 @@ def barplot(scores):
     y_pos = np.arange(len(names))
     plt.barh(y_pos, [item[1] for item in scores], align='center', alpha=0.4)
     plt.yticks(y_pos, names)
-    plt.title('Similarity score with %s tweets per tag\n w/o token "RT"' % AMOUNT)
+    plt.title('Similarity score with entities from %s tweets per tag\n w/o token "RT"' % AMOUNT)
     plt.tight_layout()
-    fig.savefig('hashtag_similarity%s.png' % AMOUNT, bbox_inches=0)
+    fig.savefig('hashtag_similarity%s_entity.png' % AMOUNT, bbox_inches=0)
 
 ## rip off directory stuff and suffix from the filename
 def getTagName(filename):
@@ -118,5 +118,5 @@ if __name__ == '__main__':
         print "Duuuuuuuuuugh!!!"
         print "Usage: python script.py foldername"
         sys.exit(0)
-    #main(sys.argv[1])
-    main_mostCommon(sys.argv[1])
+    main(sys.argv[1])
+    #main_mostCommon(sys.argv[1])

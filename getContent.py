@@ -8,6 +8,9 @@ from secrets import *
 
 '''
 A script to obtain tweet texts/entities via Twitter API
+
+NYC woid for trend topic
+[{u'name': u'New York', u'countryCode': u'US', u'url': u'http://where.yahooapis.com/v1/place/2459115', u'country': u'United States', u'parentid': 23424977, u'placeType': {u'code': 7, u'name': u'Town'}, u'woeid': 2459115}]
 '''
 
 TRENDS_URL = 'https://api.twitter.com/1.1/trends/place.json'
@@ -19,7 +22,7 @@ FILTER_PARAMS = {'language':'en', 'filter_level':'medium'}
 oauth = OAuth1Session(APP_KEY, client_secret=APP_SECRET,
                         resource_owner_key=ACCESS_TOKEN,
                         resource_owner_secret=ACCESS_TOKEN_SECRET)
-AMOUNT = 2000
+AMOUNT = 4000
 
 ## given a list of tweet texts, write tweets into local file
 ## filename is the tag without #
