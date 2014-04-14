@@ -315,3 +315,8 @@ This figure above is the scores of current NYC trending hashtags result based on
             MastersSunday                  504 [('masterssunday', 2999), ('masters2014', 353), ('master', 103), ('spieth', 47), ('mentionpeopleyoureallylov', 33), ('jordanspeith', 31), ('gotim', 30), ('golf', 25), ('augusta', 24), ('themast', 22)]
 
 Apparently they are pretty much the same thing according to entities! Their most common entities collide a lot.
+
+### 0413 9:30-10:30pm
+
+Write README, fix comments in program
+
