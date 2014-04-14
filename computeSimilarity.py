@@ -1,14 +1,6 @@
 #!/usr/bin/python
-
-'''
-A script to
-1. compute similarity of pairs of Twitter hashtags
-2. compute most common tokens for 2 documents
-'''
-
 from secrets import *
 from utility import *
-
 import requests
 import sys
 import os
@@ -21,14 +13,21 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import *
 from requests_oauthlib import OAuth1Session
 from sklearn.feature_extraction.text import TfidfVectorizer
-
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
 
+'''
+A script to
+1. compute similarity of pairs of Twitter hashtags
+2. compute most common tokens for 2 documents
+'''
+## the amount of tweets proccessed, if any
 AMOUNT = 4000
 
 ## bar plot
+## input: a list of similarity scores associated with each pair of tags
+## a bar plot of every score
 def barplot(scores):
     font = {'size': 10}
     plt.rc('font', **font)
@@ -39,7 +38,7 @@ def barplot(scores):
     plt.yticks(y_pos, names)
     plt.title('Similarity score of entities from %s tweets\nper tag w/o token "RT"\n' % AMOUNT)
     plt.tight_layout()
-    fig.savefig('hashtag_similarity%s_entity.png' % AMOUNT, bbox_inches=0)
+    fig.savefig('hashtag_similarity.png', bbox_inches=0)
 
 ## rip off directory stuff and suffix from the filename
 def getTagName(filename):
@@ -49,7 +48,7 @@ def getTagName(filename):
 def removeStopwords(tokens):
     return (w for w in tokens if not w in stopwords.words('english'))
 
-## given a word of , remove all occurrence of rt
+## given a string, remove all occurrence of rt
 def removeRT(line):
     return line.translate(None, 'rt')
 
@@ -66,8 +65,10 @@ def getTokens(words):
         stemmed.append(stemmer.stem(item))
     return stemmed
 
-## given two docs, compute the similarity
-## D<w1, w2, ...> and cosine similarity
+## given 2 docs (strings)
+## 1. tokenize, remove stopwords
+## 2. compute TFIDF for each token and form vectors
+## 3. comptue and return pairwise consine similarity
 def pairwiseSim(doc1, doc2):
     # get a vector of tfidf of tokens as features
     tfidf = TfidfVectorizer(tokenizer=getTokens, stop_words='english').fit_transform([doc1, doc2])

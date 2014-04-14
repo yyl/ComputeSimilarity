@@ -5,24 +5,26 @@ import json
 import string
 from requests_oauthlib import OAuth1Session
 from secrets import *
-
 '''
-A script to obtain tweet texts/entities via Twitter API
+A script utilize Twitter API to
+1. obtain tweet texts given a tag
+2. obtain entities of tweets associated with the given tag
+3. obtain trending hashtags given WOID of the location
+
+For the first 2 functions It reads tags from the file 'tags.txt'
 
 NYC woid for trend topic
 [{u'name': u'New York', u'countryCode': u'US', u'url': u'http://where.yahooapis.com/v1/place/2459115', u'country': u'United States', u'parentid': 23424977, u'placeType': {u'code': 7, u'name': u'Town'}, u'woeid': 2459115}]
 '''
 
+## some global variables
 TRENDS_URL = 'https://api.twitter.com/1.1/trends/place.json'
 TRENDS_PARAMS = {'language':'en', 'filter_level':'medium', 'id':2459115}
 SEARCH_URL = 'https://api.twitter.com/1.1/search/tweets.json'
 SEARCH_KEYS = {'language':'en', 'filter_level':'medium', 'result_type':'recent', 'count':100}
-FILTER_URL = 'https://stream.twitter.com/1.1/statuses/sample.json'
-FILTER_PARAMS = {'language':'en', 'filter_level':'medium'}
 oauth = OAuth1Session(APP_KEY, client_secret=APP_SECRET,
                         resource_owner_key=ACCESS_TOKEN,
                         resource_owner_secret=ACCESS_TOKEN_SECRET)
-
 ## the amount of tweets crawled per tag
 AMOUNT = 4000
 
@@ -32,6 +34,8 @@ def dumpTweets(tag, tweets, foldername):
     # check the dir, create it if not exsit
     if not os.path.exists(foldername):
         os.makedirs(foldername)
+    # create a file named with the tag
+    # write every tweet into the file
     with open("%s/%s.txt" % (foldername, tag.lstrip('#')), "a+") as f:
         for tweet in tweets:
             f.write(tweet.encode('utf-8') + "\n")
@@ -46,6 +50,7 @@ def getTweets(tag):
         dumpTweets(tag, tweets)
 
 ## given AMOUNT, get large amount of tweets given the hashtag
+## by continuously pulling from API and keeping track of max_id
 ## also obtain all entities from the tweets
 def getMoreTweets(tag):
     print "Getting more tweets for %s..." % tag
@@ -70,7 +75,9 @@ def getMoreTweets(tag):
 ## similar to getMoreTweets but only obtain all entities from the tweets
 def getMoreEntities(tag):
     print "Getting entities of %d tweets for %s..." % (AMOUNT, tag)
+    # specify the querying tag
     SEARCH_KEYS['q'] = tag
+    # keep track of tweets processed
     count = 0
     response = oauth.get(SEARCH_URL, params=SEARCH_KEYS)
     while count < AMOUNT:
@@ -127,11 +134,9 @@ def getTags():
     response = oauth.get(TRENDS_URL, params=TRENDS_PARAMS)
     if response.status_code == 200:
         robj = response.json()
+        # choose only hashtags from trending topics
         trends = (decode_to_unicode(trend['name']) for trend in robj[0]['trends'] if trend['name'].startswith('#'))
-        '''
-        with open("trends.txt", "r") as f:
-            new_trends = (trend for trend in trends if trend not in f.read())
-        '''
+        # write them into trends.txt file
         with open("trends.txt", "w+") as f:
             for t in trends:
                 f.write(t.encode('utf-8') + '\n')
