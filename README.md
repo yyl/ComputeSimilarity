@@ -92,11 +92,11 @@ This is truly an interesting area to explore.
 
 ### How to use them
 
-dependencies
+#### dependencies
 
 Could be found in `requirements.txt`
 
-`getContent.py`
+#### `getContent.py`
 
 Use it to obtain entities/tweets for tags.
 
@@ -104,7 +104,7 @@ Use it to obtain entities/tweets for tags.
 
 It will first obtain trending hashtags into local file `trends.txt`. Then it will creates folder `entities` to hold entity file for each tag. Entities of each tag will then be saved in file with the name of that entity in `entities`.
 
-`computeSimilarity.py`
+#### `computeSimilarity.py`
 
 Use it to obtain entities/tweets for tags.
 
@@ -114,7 +114,7 @@ Use it to obtain entities/tweets for tags.
 
 The program logs pairwise score to the terminal, and saves the barplot into file `hashtag_similarity.png` in current directly.
 
-`chooseN.py`
+#### `chooseN.py`
 
 Use to plot curve of # of tweets v. # of unique tokens. Lots of manual coding. Need to be refactored for use in the future.
 
