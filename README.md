@@ -70,7 +70,7 @@ For the performance of my algorithm, there are 2 things,
 
 As I said, unlike normal document similarity computation, in which documents are already given, here we need to find appropriate source to reprensent each hashtag. This also makes the computation interesting; I spend most of my effort on this:
 
-- I firstly start with texts of tweets, instead of entities, for each tag, with the amount of tweets being fixed to 2000. I DID NOT remove links, entities, emojis etc as I suspect they play a role in representing hashtags too
+- [my first similarity score calculator](https://github.com/yyl/ComputeSimilarity/blob/master/README.md#first-similarity-calculator) starts with texts of tweets, instead of entities, for each tag, with the amount of tweets being fixed to 2000. I DID NOT remove links, entities, emojis etc as I suspect they play a role in representing hashtags too
 - Then I remove `rt` as a token for every tag because of better accuracy I found in [my experiment](https://github.com/yyl/ComputeSimilarity#0411-530-7pm)
 - The choice of 2000 as amount of tweets is arbitrary, therefore I did [some experiments](https://github.com/yyl/ComputeSimilarity#0412-11pm-1230am) attempting to find optimal choice of `n`, that is, the number of tweets after which the accuracy/# of unique tokens start converging. The experiment fails to find convergence within my range.
 - Eventually I discovered entities could be a better source for hashtags comparison. The [result](https://github.com/yyl/ComputeSimilarity#0413-330-4pm) speaks itself.
