@@ -1,7 +1,5 @@
-ComputeSimilarity
+Hashtag similarity calculator
 =================
-
-### Hashtag similarity calculator
 
 A set of programs to
 
@@ -24,7 +22,7 @@ It is interesting
 
 ### My algorithm
 
-disclaimer: I have little knowledge of doc similarity, `nltk`, text mining, prior to the assignment.
+Disclaimer: I don't have any prior knowledge regarding the algorithms, procedures or tools I used. All stuff freshly baked.
 
 The core of the program is focusing on **2 hashtags**,
 
@@ -59,7 +57,7 @@ I also did the same thing for latest trending hashtags in NYC,
 
 ![similarity score based on entities](images/hashtag_similarity3000_entity.png)
 
-**Wtf are Matt and Aaron???** Aparently I am not following the trend...
+**WTF are Matt and Aaron???** Aparently I am not following the trend...
 
 For the performance of my algorithm, there are 2 things,
 
@@ -71,12 +69,13 @@ For the performance of my algorithm, there are 2 things,
 As I said, unlike normal document similarity computation, in which documents are already given, here we need to find appropriate source to reprensent each hashtag. This also makes the computation interesting; I spend most of my effort on this:
 
 - I firstly start with texts of tweets, instead of entities, for each tag, with the amount of tweets being fixed to 2000. I DID NOT remove links, entities, emojis etc as I suspect they play a role in representing hashtags too
-- Then I remove `rt` as a token for every tag because of better accuracy I found in my experiment
-- The choice of 2000 as amount of tweets is arbitrary, therefore I did some experiments attempting to find optimal choice of `n`, that is, the number of tweets after which the accuracy/# of unique tokens start converging. The experiment fails to find convergence within my range.
-- Eventually I discovered entities could be a better source for hashtags comparison. The result speaks itself.
+- Then I remove `rt` as a token for every tag because of better accuracy I found in [my experiment](https://github.com/yyl/ComputeSimilarity#0411-530-7pm)
+- The choice of 2000 as amount of tweets is arbitrary, therefore I did [some experiments](https://github.com/yyl/ComputeSimilarity#0412-11pm-1230am) attempting to find optimal choice of `n`, that is, the number of tweets after which the accuracy/# of unique tokens start converging. The experiment fails to find convergence within my range.
+- Eventually I discovered entities could be a better source for hashtags comparison. The [result](https://github.com/yyl/ComputeSimilarity#0413-330-4pm) speaks itself.
 
-**!!**Things I wish I could do given more time,
+**Things I wish I could do given more time**
 
+- measure the performance of my calculator
 - compute similarity scores for more hashtags!
 - find the optimal convergent point for the number of tweets processed!
     - I suspect there might not be an optimal point for all tags
@@ -86,6 +85,10 @@ As I said, unlike normal document similarity computation, in which documents are
 - compute similarity score of entities of a hahstag, and **wiki results** of that hashtag!
 - how about a fixed corpus as the _oracle_, and instead of comparing tag1 and tag2, we compare tag1 and oracle, and tag2 and oracle
 - provide a nicer interface for the program
+
+In conclusion, I learned a lot. I believe I am on the right track, that is using entities to represent hashtags. Entities in tweets are much more correlated to the topic the tweet is talking about. Another thing I believe is to reach a satisfying level of representing a hashtag, there exist a convergent point in the number of required tweets. 
+
+This is an interesting area to explore.
 
 ### How to use them
 
