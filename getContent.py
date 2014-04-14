@@ -89,7 +89,7 @@ def getMoreEntities(tag):
             # get all hashtags
             hashtags = (item for hashtag_list in (entities.get('hashtags', []) for entities in group_entities) for item in hashtag_list)
             hashtag_texts = (hasht.get('text', '') for hasht in hashtags)
-            dumpTweets(tag, hashtag_texts, "entities2000")
+            dumpTweets(tag, hashtag_texts, "entities")
             # get all user mentions
             mentions = (item for mention_list in (entities.get('user_mentions', []) for entities in group_entities) for item in mention_list)
             mention_texts = (mentiont.get('name', '') for mentiont in mentions)

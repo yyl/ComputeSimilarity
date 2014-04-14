@@ -1,6 +1,124 @@
 ComputeSimilarity
 =================
 
+### Hashtag similarity calculator
+
+A set of programs to
+
+- given a list of hashtags in a file, or grab tranding hashtags from NYC
+- collect tweets associated with each tag
+- compute similarity score between any pair of two tags
+- plot it out
+
+### Why hashtag?
+
+It is unlike normal document similarity
+
+- hashtags themselves provide little information, one has to find good source of texts to represent them
+
+It is interesting
+
+- to get a sense of similarity ot 2 _objects_ based on what people are talking about them on Twitter
+- to identify potential correlations of events happening on the internet
+- to discover the pattern of trending hashtags: why could they go viral?
+
+### My algorithm
+
+disclaimer: I have little knowledge of doc similarity, `nltk`, text mining, prior to the assignment.
+
+The core of the program is focusing on **2 hashtags**,
+
+- collect entities of tweets associated with 2 hashtags respectively
+    - # of tweets per tag = 4000
+    - entities being **hashtags** and **mentioned usernames**
+- preprocessing:
+    - lowercase all characters
+    - remove punctuations
+    - tokenize
+    - remove stopwords (and `rt`!)
+- compute TFIDF of each token
+- form a vector of TFIDFs for each hashtag
+- calculate the cosine similarity of 2 vectors (0,1)
+
+### Result
+
+Hashtags I compared in experiments: 
+
+    #heartbleed
+    #ssl
+    #nba
+    #ncaa
+    #ladygaga
+    #justinbieber
+
+I have made several plots along the way, but this is the final one,
+
+![similarity score based on entities](images/hashtag_similarity4000_entity.png)
+
+I also did the same thing for latest trending hashtags in NYC,
+
+![similarity score based on entities](images/hashtag_similarity3000_entity.png)
+
+**Wtf are Matt and Aaron???** Aparently I am not following the trend...
+
+For the performance of my algorithm, there are 2 things,
+
+- I am confident it is able to differentiate _similar hashtag pairs_ and _irrelevant pairs_. You could see from above figures irrelevant pairs hardly get any score.
+- As for comparing 2 scores of 2 similar pairs relatively, I would need more expriments to quntify it.
+
+### Some explanation
+
+As I said, unlike normal document similarity computation, in which documents are already given, here we need to find appropriate source to reprensent each hashtag. This also makes the computation interesting; I spend most of my effort on this:
+
+- I firstly start with texts of tweets, instead of entities, for each tag, with the amount of tweets being fixed to 2000. I DID NOT remove links, entities, emojis etc as I suspect they play a role in representing hashtags too
+- Then I remove `rt` as a token for every tag because of better accuracy I found in my experiment
+- The choice of 2000 as amount of tweets is arbitrary, therefore I did some experiments attempting to find optimal choice of `n`, that is, the number of tweets after which the accuracy/# of unique tokens start converging. The experiment fails to find convergence within my range.
+- Eventually I discovered entities could be a better source for hashtags comparison. The result speaks itself.
+
+**!!**Things I wish I could do given more time,
+
+- compute similarity scores for more hashtags!
+- find the optimal convergent point for the number of tweets processed!
+    - I suspect there might not be an optimal point for all tags
+    - **optimal amount of tweets should be decided dynamically for each hashtags!**
+- are there any other sources have potential of representing hashtags?
+- try _N-gram_ as the core metric
+- compute similarity score of entities of a hahstag, and **wiki results** of that hashtag!
+- how about a fixed corpus as the _oracle_, and instead of comparing tag1 and tag2, we compare tag1 and oracle, and tag2 and oracle
+- provide a nicer interface for the program
+
+### How to use them
+
+0. dependencies
+
+Could be found in `requirements.txt`
+
+1. `getContent.py`
+
+Use it to obtain entities/tweets for tags.
+
+    python getContent.py
+
+It will first obtain trending hashtags into local file `trends.txt`. Then it will creates folder `entities` to hold entity file for each tag. Entities of each tag will then be saved in file with the name of that entity in `entities`.
+
+2. `computeSimilarity.py
+
+Use it to obtain entities/tweets for tags.
+
+    python computeSimilarity.py foldername
+
+`foldername` means the folder that contains content of hashtags that you wnat to comput similarity scores. Each file in the folder has the name of one tag, and holds either tweets/entities associated with the tag. This folder could be obtained by `getContent.py`.
+
+The program logs pairwise score to the terminal, and saves the barplot into file `hashtag_similarity.png` in current directly.
+
+3. `chooseN.py`
+
+Use to plot curve of # of tweets v. # of unique tokens. Lots of manual coding. Need to be refactored for use in the future.
+
+***
+
+### Original progress log
+
 A program to compute similarity of two ~~documents~~ hashtags in Twitter
 
 #### TODO
