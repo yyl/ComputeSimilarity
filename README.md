@@ -8,7 +8,9 @@ A set of programs to
 - compute similarity score between any pair of two tags
 - plot it out
 
-### Why hashtag?
+hashtag: #hashtag used in Twitter.
+
+### Why #hashtag?
 
 It is unlike normal document similarity
 
