@@ -12,7 +12,7 @@ hashtag: #hashtag used in Twitter.
 
 ### Why #hashtag?
 
-It is unlike normal document similarity
+It unlikes normal document similarity
 
 - hashtags themselves provide little information, one has to find good source of texts to represent them
 
