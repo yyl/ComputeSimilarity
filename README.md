@@ -64,6 +64,13 @@ For the performance of my algorithm, there are 2 things,
 - I am confident it is able to differentiate _similar hashtag pairs_ and _irrelevant pairs_. You could see from above figures irrelevant pairs hardly get any score.
 - As for comparing 2 scores of 2 similar pairs relatively, I would need more expriments to quntify it.
 
+**update 0414**:
+
+I said I would like to find the optimal number of tweets processed for representing the hashtag. Below is the graph and explanation is [here](). Take home message is **there exist optimal point and it is around 2000 entities processed**. It is not quite hashtag-dependent as I thought, at least for the tags I compared. Although this is actually the optimal point for **the number of entities processed**, it would be pretty easy to transform it into number of tweets. With such optimal point
+I could be more confident that contents I chose for each tag represents the tag pretty well and therefore the score is more reliable.
+
+![similarity score change along with number of entities](images/curve_of_scores.png)
+
 ### Some explanation
 
 As I said, unlike normal document similarity computation, in which documents are already given, here we need to find appropriate source to reprensent each hashtag. This also makes the computation interesting; I spend most of my effort on this:
@@ -320,3 +327,13 @@ Apparently they are pretty much the same thing according to entities! Their most
 
 Write README, fix comments in program
 
+### 0414 3-4pm
+
+I did the experiment to see, for one pair of hashtags, how the similarity score changes along with the increase of entities processed. I plotted out the result of three similar hashtags as below. The maximum number of entities I looked at is 6000.
+
+![similarity score change along with number of entities](images/curve_of_scores.png)
+
+As one can see, for all pairs the score first go up, and jitter for a while, and eventually become steady or even start **going down**.
+
+It seems for very similar pairs, increasing number of entities processed leads to **over representation** of the hastags after some points. This is obvious for `nba v ncaa` and `hearbleed v ssl`. For the less similar pair, scores are much lower but are generally steady for the entire time. There exits a steady period before the over representation, which I think it is the place we should be looking at for the optimal point: for `nba v ncaa` it's around **1500-2500**, and for
+`heartbleed v ssl` is **2000-2500**. Still not a fixed point, but pretty close. If we choose the number of tweets from that area, I think it is pretty confident that the score represents the hashtag pretty well.
