@@ -66,7 +66,7 @@ For the performance of my algorithm, there are 2 things,
 - I am confident it is able to differentiate _similar hashtag pairs_ and _irrelevant pairs_. You could see from above figures irrelevant pairs hardly get any score.
 - As for comparing 2 scores of 2 similar pairs relatively, I would need more expriments to quntify it.
 
-### Some explanation
+### Some explanation of the progress
 
 As I said, unlike normal document similarity computation, in which documents are already given, here we need to find appropriate source to reprensent each hashtag. This also makes the computation interesting; I spend most of my effort on this:
 
