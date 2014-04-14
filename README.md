@@ -88,15 +88,15 @@ As I said, unlike normal document similarity computation, in which documents are
 
 In conclusion, I learned a lot. I believe I am on the right track, that is using entities to represent hashtags. Entities in tweets are much more correlated to the topic the tweet is talking about. Another thing I believe is to reach a satisfying level of representing a hashtag, there exist a convergent point in the number of required tweets. 
 
-This is an interesting area to explore.
+This is truly an interesting area to explore.
 
 ### How to use them
 
-0. dependencies
+dependencies
 
 Could be found in `requirements.txt`
 
-1. `getContent.py`
+`getContent.py`
 
 Use it to obtain entities/tweets for tags.
 
@@ -104,7 +104,7 @@ Use it to obtain entities/tweets for tags.
 
 It will first obtain trending hashtags into local file `trends.txt`. Then it will creates folder `entities` to hold entity file for each tag. Entities of each tag will then be saved in file with the name of that entity in `entities`.
 
-2. `computeSimilarity.py
+`computeSimilarity.py`
 
 Use it to obtain entities/tweets for tags.
 
@@ -114,7 +114,7 @@ Use it to obtain entities/tweets for tags.
 
 The program logs pairwise score to the terminal, and saves the barplot into file `hashtag_similarity.png` in current directly.
 
-3. `chooseN.py`
+`chooseN.py`
 
 Use to plot curve of # of tweets v. # of unique tokens. Lots of manual coding. Need to be refactored for use in the future.
 
