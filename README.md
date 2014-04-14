@@ -8,9 +8,11 @@ A set of programs to
 - compute similarity score between any pair of two tags
 - plot it out
 
-### Why hashtag?
+hashtag: #hashtag used in Twitter.
 
-It is unlike normal document similarity
+### Why #hashtag?
+
+It unlikes normal document similarity
 
 - hashtags themselves provide little information, one has to find good source of texts to represent them
 
@@ -66,16 +68,16 @@ For the performance of my algorithm, there are 2 things,
 
 **update 0414**:
 
-I said I would like to find the optimal number of tweets processed for representing the hashtag. Below is the graph and explanation is [here](). Take home message is **there exist optimal point and it is around 2000 entities processed**. It is not quite hashtag-dependent as I thought, at least for the tags I compared. Although this is actually the optimal point for **the number of entities processed**, it would be pretty easy to transform it into number of tweets. With such optimal point
+I said I would like to find the optimal number of tweets processed for representing the hashtag. Below is the graph and explanation is [here](https://github.com/yyl/ComputeSimilarity#0414-3-4pm). Take home message is **there exist optimal point and it is around 2000 entities processed**. It is not quite hashtag-dependent as I thought, at least for the tags I compared. Although this is actually the optimal point for **the number of entities processed**, it would be pretty easy to transform it into number of tweets. With such optimal point
 I could be more confident that contents I chose for each tag represents the tag pretty well and therefore the score is more reliable.
 
 ![similarity score change along with number of entities](images/curve_of_scores.png)
 
-### Some explanation
+### Some explanation of the progress
 
 As I said, unlike normal document similarity computation, in which documents are already given, here we need to find appropriate source to reprensent each hashtag. This also makes the computation interesting; I spend most of my effort on this:
 
-- I firstly start with texts of tweets, instead of entities, for each tag, with the amount of tweets being fixed to 2000. I DID NOT remove links, entities, emojis etc as I suspect they play a role in representing hashtags too
+- [my first similarity score calculator](https://github.com/yyl/ComputeSimilarity/blob/master/README.md#first-similarity-calculator) starts with texts of tweets, instead of entities, for each tag, with the amount of tweets being fixed to 2000. I DID NOT remove links, entities, emojis etc as I suspect they play a role in representing hashtags too
 - Then I remove `rt` as a token for every tag because of better accuracy I found in [my experiment](https://github.com/yyl/ComputeSimilarity#0411-530-7pm)
 - The choice of 2000 as amount of tweets is arbitrary, therefore I did [some experiments](https://github.com/yyl/ComputeSimilarity#0412-11pm-1230am) attempting to find optimal choice of `n`, that is, the number of tweets after which the accuracy/# of unique tokens start converging. The experiment fails to find convergence within my range.
 - Eventually I discovered entities could be a better source for hashtags comparison. The [result](https://github.com/yyl/ComputeSimilarity#0413-330-4pm) speaks itself.
@@ -95,15 +97,18 @@ As I said, unlike normal document similarity computation, in which documents are
 
 In conclusion, I learned a lot. I believe I am on the right track, that is using entities to represent hashtags. Entities in tweets are much more correlated to the topic the tweet is talking about. Another thing I believe is to reach a satisfying level of representing a hashtag, there exist a convergent point in the number of required tweets. 
 
-This is an interesting area to explore.
+This is truly an interesting area to explore.
 
 ### How to use them
 
-0. dependencies
+#### dependencies
 
-Could be found in `requirements.txt`
+Could be found in `requirements.txt`.
 
-1. `getContent.py`
+You need also provide a file `secrets.py`, which stores your API credentials `APP_KEY`, `APP_SECRET`, 
+`ACCESS_TOKEN`, and `ACCESS_TOKEN_SECRET`.
+
+#### `getContent.py`
 
 Use it to obtain entities/tweets for tags.
 
@@ -111,7 +116,7 @@ Use it to obtain entities/tweets for tags.
 
 It will first obtain trending hashtags into local file `trends.txt`. Then it will creates folder `entities` to hold entity file for each tag. Entities of each tag will then be saved in file with the name of that entity in `entities`.
 
-2. `computeSimilarity.py
+#### `computeSimilarity.py`
 
 Use it to obtain entities/tweets for tags.
 
@@ -121,7 +126,7 @@ Use it to obtain entities/tweets for tags.
 
 The program logs pairwise score to the terminal, and saves the barplot into file `hashtag_similarity.png` in current directly.
 
-3. `chooseN.py`
+#### `chooseN.py`
 
 Use to plot curve of # of tweets v. # of unique tokens. Lots of manual coding. Need to be refactored for use in the future.
 
