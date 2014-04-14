@@ -96,7 +96,10 @@ This is truly an interesting area to explore.
 
 #### dependencies
 
-Could be found in `requirements.txt`
+Could be found in `requirements.txt`.
+
+You need also provide a file `secrets.py`, which stores your API credentials `APP_KEY`, `APP_SECRET`, 
+`ACCESS_TOKEN`, and `ACCESS_TOKEN_SECRET`.
 
 #### `getContent.py`
 
